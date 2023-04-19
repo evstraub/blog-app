@@ -4,28 +4,36 @@ import BlogList from "./BlogList";
 
 const Home = () => {
 const [blogs, setBlogs] = useState(null);
+const [isLoading, setIsLoading] = useState(true)
+const [error, setError] = useState(null)
 
-// const [name, setName] = useState('Ethan')
 
-const handleDelete = (id) => {
-const newBlogs = blogs.filter(blog => blog.id !== id)
-setBlogs(newBlogs)
-}
 
 useEffect(()=> {
-fetch("http://localhost:8000/blogs")
+ fetch("http://localhost:8000/blogs")
 .then(res => {
-     return res.json()
-     
+    if(!res.ok){
+        throw Error("couldn't get resource")
+    }
+
+     return res.json() 
 })
-.then(data =>{
-setBlogs(data)
+  .then(data =>{
+ setBlogs(data)
+ setIsLoading(false)
+ setError(null)
+})
+.catch(err => {
+setError(err.message)
+setIsLoading(false)
 })
 },[])
 
   return (
     <div className="home">
-{blogs &&<BlogList blogs={blogs} title='All Blogs' handleDelete={handleDelete}/>}
+        { error && <div>{error} </div>}
+    {isLoading && <div>Loading...</div>}
+{blogs &&<BlogList blogs={blogs} title='All Blogs' />}
     </div>
   );
 }
