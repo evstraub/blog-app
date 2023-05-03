@@ -5,8 +5,10 @@ import Home from './components/Home';
 import Navbar from './components/Navbar';
 import NotFound from './components/NotFound';
 
+
 function App() {
   return (
+    
     <Router>
       <div className="App">
         <Navbar />

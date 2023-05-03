@@ -4,21 +4,18 @@ const Create = () => {
 const [title, setTitle] =useState('')
 const [body, setBody] =useState('')
 const [author, setAuthor] =useState('Ethan')
-const [isLoading, setIsLoading] = useState(false)
 const history =useHistory()
 
 const handleSubmit =(e) => {
   e.preventDefault()
   const blog ={title, body, author}
-  setIsLoading(true)
 
-  fetch("http://localhost:8000/blogs",{
+  fetch("http://localhost:3000/blogs",{
     method: "POST",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify(blog)
   }).then(() =>{
     console.log('new blog added')
-    setIsLoading(false)
      history.push('/');
   })
  
@@ -46,8 +43,8 @@ const handleSubmit =(e) => {
           <option value="Ethan">Ethan</option>
           <option value="Kay">Kay</option>
         </select>
-       { !isLoading && <button>Add Blog</button>}
-       { isLoading && <button disabled>Addding Blog...</button>}
+       <button>Add Blog</button>
+      
        
       </form>
     </div>
